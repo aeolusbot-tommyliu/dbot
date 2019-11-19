@@ -43,7 +43,8 @@ set(dbot_LIBRARIES ${dbot_LIBRARY})
 # Dependencies             #
 ############################
 
-find_package(Eigen3 3.2 EXACT REQUIRED)
+# find_package(Eigen3 3.2 EXACT REQUIRED)
+set(EIGEM3_INCLUDE_DIR "opt/eigen3/include/eigen3/")
 include_directories(${EIGEN3_INCLUDE_DIR})
 # add_definitions(${EIGEN3_DEFINITIONS})
 
@@ -169,7 +170,7 @@ set(dbot_SOURCES
     ${dbot_SOURCE_DIR}/builder/gaussian_tracker_builder.cpp
 )
 
-add_library(${dbot_LIBRARY} SHARED
+add_library(${dbot_LIBRARY} STATIC
     ${dbot_HEADERS}
     ${dbot_SOURCES})
 
@@ -179,7 +180,7 @@ target_link_libraries(${dbot_LIBRARY}
 
 # Build dbot GPU library
 if(DBOT_BUILD_GPU)
-    cuda_add_library(${dbot_LIBRARY_GPU} SHARED
+	cuda_add_library(${dbot_LIBRARY_GPU} STATIC
         ${dbot_SOURCE_DIR}/gpu/cuda_likelihood_evaluator.cu
         ${dbot_SOURCE_DIR}/gpu/shader.cpp
         ${dbot_SOURCE_DIR}/gpu/object_rasterizer.cpp
